@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-gray-800 p-6 rounded shadow-lg">
+    <h2 class="text-3xl font-bold text-blue-300">{{ snippet.title }}</h2>
+    <p class="text-gray-400 mt-1 mb-2">Language: {{ snippet.language }}</p>
+    <p class="text-sm mb-4 text-gray-300">{{ snippet.description }}</p>
+
+    <!-- Highlighted code block -->
+    <div class="bg-gray-900 p-4 rounded overflow-x-auto text-sm leading-relaxed">
+        {{ snippet.highlighted_code|safe }}
+    </div>
+
+    <!-- Highlighted uploaded file content -->
+    {% if highlighted_file %}
+    <div class="mt-6">
+        <h3 class="text-lg font-semibold text-gray-200 mb-2">📄 Uploaded File Content:</h3>
+        <div class="bg-gray-900 border border-gray-700 rounded p-4 overflow-x-auto text-sm whitespace-pre-wrap leading-relaxed">
+            {{ highlighted_file|safe }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="mt-4 flex gap-4">
+        <a href="{% url 'snippet_edit' snippet.pk %}" class="text-yellow-400 hover:underline">✏️ Edit</a>
+        <a href="{% url 'snippet_delete' snippet.pk %}" class="text-red-400 hover:underline">🗑️ Delete</a>
+    </div>
+</div>
+{% endblock %}

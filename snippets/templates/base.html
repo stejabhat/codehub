@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeNest 🐍</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Segoe UI', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen px-6 py-10">
+
+  <!-- 🌐 Updated Navigation Bar -->
+  <nav class="flex justify-end p-4 bg-gray-900 text-white">
+    {% if user.is_authenticated %}
+      <span class="mr-4">Hello, {{ user.username }}!</span>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="bg-red-600 hover:bg-red-700 px-4 py-1 rounded">Logout</button>
+      </form>
+    {% else %}
+      <a href="{% url 'login' %}" class="mr-4 hover:underline">Login</a>
+      <a href="{% url 'signup' %}" class="hover:underline">Sign Up</a>
+    {% endif %}
+  </nav>
+
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold text-blue-400 mb-2">🧠 CodeNest</h1>
+      <nav class="flex gap-4 text-sm">
+        <a href="{% url 'home' %}" class="hover:underline text-blue-300">🏠 Home</a>
+        <a href="{% url 'snippet_upload' %}" class="hover:underline text-green-300">➕ Upload</a>
+      </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
