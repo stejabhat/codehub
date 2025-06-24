@@ -16,3 +16,9 @@ class Snippet(models.Model):
 
     def __str__(self):
         return self.title
+class Suggestion(models.Model):
+    snippet = models.ForeignKey(Snippet, on_delete=models.CASCADE, related_name='suggestions')
+    suggested_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    new_code = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    reviewed = models.BooleanField(default=False)

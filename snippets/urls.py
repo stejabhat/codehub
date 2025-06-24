@@ -3,9 +3,9 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('snippet/<int:pk>/', views.snippet_detail, name='snippet_detail'),
     path('upload/', views.snippet_upload, name='snippet_upload'),
-    path('snippet/<int:pk>/delete/', views.snippet_delete, name='snippet_delete'),
+    path('snippet/<int:pk>/', views.snippet_detail, name='snippet_detail'),
     path('snippet/<int:pk>/edit/', views.snippet_edit, name='snippet_edit'),
-    
+    path('snippet/<int:pk>/delete/', views.snippet_delete, name='snippet_delete'),
+    path('snippet/<int:pk>/suggest/', views.suggest_edit, name='suggest_edit'),  # ✅ This is the correct one
 ]

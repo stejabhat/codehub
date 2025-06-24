@@ -1,28 +1,56 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="bg-gray-800 p-6 rounded shadow-lg">
-    <h2 class="text-3xl font-bold text-blue-300">{{ snippet.title }}</h2>
-    <p class="text-gray-400 mt-1 mb-2">Language: {{ snippet.language }}</p>
-    <p class="text-sm mb-4 text-gray-300">{{ snippet.description }}</p>
+  <h2 class="text-3xl font-bold text-blue-300">{{ snippet.title }}</h2>
+  <p class="text-gray-400 mt-1 mb-2">Language: {{ snippet.language }}</p>
+  <p class="text-sm mb-4 text-gray-300">{{ snippet.description }}</p>
 
-    <!-- Highlighted code block -->
-    <div class="bg-gray-900 p-4 rounded overflow-x-auto text-sm leading-relaxed">
-        {{ snippet.highlighted_code|safe }}
-    </div>
-
-    <!-- Highlighted uploaded file content -->
-    {% if highlighted_file %}
+  <!-- Code Block -->
+  {% if highlighted_file %}
     <div class="mt-6">
-        <h3 class="text-lg font-semibold text-gray-200 mb-2">📄 Uploaded File Content:</h3>
-        <div class="bg-gray-900 border border-gray-700 rounded p-4 overflow-x-auto text-sm whitespace-pre-wrap leading-relaxed">
-            {{ highlighted_file|safe }}
-        </div>
+      <h3 class="text-lg font-semibold text-gray-200 mb-2">📄 Uploaded File Content:</h3>
+      <div class="bg-gray-900 border border-gray-700 rounded p-4 overflow-x-auto text-sm whitespace-pre-wrap leading-relaxed">
+        {{ highlighted_file|safe }}
+      </div>
     </div>
-    {% endif %}
+  {% elif highlighted_code %}
+    <div class="mt-6">
+      <h3 class="text-lg font-semibold text-gray-200 mb-2">💻 Code:</h3>
+      <div class="bg-gray-900 border border-gray-700 rounded p-4 overflow-x-auto text-sm whitespace-pre-wrap leading-relaxed">
+        {{ highlighted_code|safe }}
+      </div>
+    </div>
+  {% else %}
+    <div class="mt-6">
+      <h3 class="text-lg font-semibold text-gray-200 mb-2">📝 Raw Code:</h3>
+      <pre class="bg-gray-900 text-white p-4 rounded whitespace-pre-wrap">{{ snippet.code }}</pre>
+    </div>
+  {% endif %}
+{% if suggestions %}
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold text-purple-300">🛠️ Suggestions:</h3>
+    <ul class="list-disc ml-6 mt-2 text-gray-300 text-sm">
+      {% for suggestion in suggestions %}
+        <li>
+          <strong>{{ suggestion.suggested_by.username }}</strong>: {{ suggestion.suggested_code|linebreaksbr }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
 
-    <div class="mt-4 flex gap-4">
-        <a href="{% url 'snippet_edit' snippet.pk %}" class="text-yellow-400 hover:underline">✏️ Edit</a>
-        <a href="{% url 'snippet_delete' snippet.pk %}" class="text-red-400 hover:underline">🗑️ Delete</a>
+  <!-- Action Buttons -->
+  {% if request.user == snippet.author %}
+    <div class="mt-4 text-sm text-gray-400">
+      want some changes?<a href="{% url 'snippet_edit' snippet.pk %}" class="text-yellow-400 hover:underline">✏️ Edit</a>
+      <a href="{% url 'snippet_delete' snippet.pk %}" class="text-red-400 hover:underline">🗑️ Delete</a>
     </div>
+  {% elif request.user.is_authenticated %}
+    <div class="mt-4 text-sm text-gray-400">
+      💡 Want to suggest changes? <a href="{% url 'suggest_edit' snippet.pk %}" class="text-blue-400 hover:underline">Click here</a>
+    </div>
+  {% endif %}
 </div>
+
 {% endblock %}
