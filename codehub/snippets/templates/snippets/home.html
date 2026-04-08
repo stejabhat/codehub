@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load form_filters %}
+{% block content %}
+
+<h2 class="text-3xl font-semibold text-vintage-200 mb-6">All Snippets</h2>
+
+<form method="get" class="mb-8 flex gap-3">
+    <input type="text" name="q" placeholder="Search snippets..." value="{{ request.GET.q }}"
+           class="flex-1 px-4 py-2.5 rounded vintage-border bg-cosmic-800 text-vintage-100 placeholder-teal-400 focus:outline-none focus:ring-2 focus:ring-accent-400">
+    <button type="submit"
+            class="px-6 py-2.5 rounded btn-vintage text-vintage-100">Search</button>
+</form>
+
+<div class="grid gap-4">
+    {% for snippet in snippets %}
+    <a href="{% url 'snippet_detail' snippet.pk %}" 
+       class="card-hover block p-5 rounded vintage-border bg-cosmic-800 hover:border-accent-400">
+        <h3 class="text-xl font-semibold text-accent-400 mb-1">{{ snippet.title }}</h3>
+        <p class="text-teal-400 text-sm mb-2">{{ snippet.language }}</p>
+        <div class="flex flex-wrap gap-2">
+            {% for tag in snippet.tag_list %}
+                <span class="text-xs px-2 py-1 rounded bg-brown-900 text-vintage-300">#{{ tag }}</span>
+            {% endfor %}
+        </div>
+    </a>
+    {% empty %}
+    <p class="text-teal-400">No snippets found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

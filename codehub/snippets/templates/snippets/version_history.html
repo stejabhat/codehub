@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card-hover p-6 rounded vintage-border bg-cosmic-800">
+  <h2 class="text-2xl font-semibold text-vintage-200 mb-4">Version History: {{ snippet.title }}</h2>
+  
+  {% if versions %}
+    <ul class="space-y-3">
+      {% for version in versions %}
+        <li class="card-hover p-4 rounded vintage-border bg-cosmic-900 flex justify-between items-center">
+          <div>
+            <span class="font-semibold text-accent-400">Version {{ version.version_number }}</span>
+            <span class="text-vintage-300/60 text-sm ml-2">by {{ version.changed_by.username }}</span>
+            <span class="text-teal-400/60 text-sm ml-2">{{ version.created_at|timesince }} ago</span>
+          </div>
+          <form method="POST" action="{% url 'revert_version' snippet.pk version.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="px-3 py-1.5 rounded bg-vintage-400 text-cosmic-900 hover:bg-accent-400 transition">Revert</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-teal-400/60">No version history yet.</p>
+  {% endif %}
+  
+  <a href="{% url 'snippet_detail' snippet.pk %}" class="inline-block mt-4 text-accent-400 hover:text-vintage-300 transition">Back to snippet</a>
+</div>
+
+{% endblock %}

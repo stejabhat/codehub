@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeNest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cosmic: {
+                900: '#212A31',
+                800: '#2E3944',
+                700: '#3E4960',
+                600: '#4A5A70',
+              },
+              vintage: {
+                100: '#D3D9D4',
+                200: '#AC8968',
+                300: '#93785B',
+                400: '#865D36',
+                500: '#6B4E2A',
+                600: '#5A3D22',
+              },
+              teal: {
+                400: '#748D92',
+                500: '#5C757D',
+                600: '#4A5F68',
+              },
+              accent: {
+                400: '#124E66',
+                500: '#0D3B52',
+              },
+              brown: {
+                900: '#3E362E',
+                800: '#4A453D',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap');
+      
+      body {
+        font-family: 'Source Code Pro', monospace;
+      }
+      
+      h1, h2, h3 {
+        font-family: 'Playfair Display', serif;
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      
+      .card-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(18, 78, 102, 0.3);
+      }
+
+      .glow-text {
+        text-shadow: 0 0 20px rgba(18, 78, 102, 0.5);
+      }
+
+      .vintage-border {
+        border: 1px solid rgba(212, 212, 212, 0.1);
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-vintage {
+        background: linear-gradient(135deg, #124E66 0%, #2E3944 100%);
+        border: 1px solid #748D92;
+        transition: all 0.3s ease;
+      }
+
+      .btn-vintage:hover {
+        background: linear-gradient(135deg, #2E3944 0%, #124E66 100%);
+        box-shadow: 0 0 15px rgba(18, 78, 102, 0.4);
+      }
+    </style>
+</head>
+<body class="bg-cosmic-900 text-vintage-100 min-h-screen">
+
+  <nav class="bg-cosmic-800/80 backdrop-blur-sm border-b border-cosmic-700 px-6 py-4">
+    <div class="max-w-4xl mx-auto flex justify-end items-center gap-6">
+      {% if user.is_authenticated %}
+        <span class="text-vintage-300">Hello, {{ user.username }}</span>
+        <a href="{% url 'notifications' %}" class="text-vintage-200 hover:text-accent-400 transition">Notifications</a>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button class="px-4 py-1.5 rounded vintage-border bg-brown-900 text-vintage-200 hover:bg-vintage-500 hover:text-white transition">Logout</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" class="text-vintage-200 hover:text-accent-400 transition">Login</a>
+        <a href="{% url 'signup' %}" class="text-vintage-200 hover:text-accent-400 transition">Sign Up</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto px-6 py-10">
+    <header class="mb-10">
+      <h1 class="text-5xl font-bold text-vintage-200 glow-text mb-4">CodeNest</h1>
+      <p class="text-teal-400 mb-4">Where code meets artistry</p>
+      <nav class="flex gap-6 text-sm">
+        <a href="{% url 'home' %}" class="text-vintage-300 hover:text-accent-400 transition">Home</a>
+        <a href="{% url 'snippet_upload' %}" class="text-vintage-300 hover:text-accent-400 transition">Upload</a>
+        <a href="{% url 'collections' %}" class="text-vintage-300 hover:text-accent-400 transition">Collections</a>
+      </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer class="border-t border-cosmic-700 mt-20 py-8 text-center text-vintage-300/60 text-sm">
+    <p>Crafted with cosmic precision</p>
+  </footer>
+</body>
+</html>

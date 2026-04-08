@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-gray-800 p-6 rounded shadow-md max-w-3xl mx-auto">
+  <h2 class="text-xl text-white font-semibold mb-4">💡 Suggest an Edit for: {{ snippet.title }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" type="submit">
+      Submit Suggestion
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load account_filters %}
+ 
+{% block content %}
+<div class="max-w-md mx-auto mt-16">
+  <div class="card-hover p-8 rounded vintage-border bg-cosmic-800">
+    <h2 class="text-2xl font-bold text-vintage-200 mb-6">Login</h2>
+
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm text-vintage-300 mb-2">
+            {{ field.label }}
+          </label>
+          {{ field|add_class:"w-full px-4 py-2.5 rounded vintage-border bg-cosmic-900 text-vintage-100 focus:outline-none focus:ring-2 focus:ring-accent-400" }}
+          {% if field.errors %}
+            <p class="text-red-400 text-xs mt-1">{{ field.errors }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="w-full mt-2 py-2.5 rounded btn-vintage text-vintage-100">
+        Login
+      </button>
+    </form>
+
+    <p class="mt-6 text-sm text-teal-400">
+      Don't have an account?
+      <a href="{% url 'signup' %}" class="text-accent-400 hover:text-vintage-300 transition">Sign Up</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

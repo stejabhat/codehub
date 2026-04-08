@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load form_filters %}
+{% block content %}
+
+<div class="card-hover p-6 rounded vintage-border bg-cosmic-800">
+  <h2 class="text-2xl font-semibold text-vintage-200 mb-6">Upload New Snippet</h2>
+  
+  <form method="post" enctype="multipart/form-data" class="space-y-5">
+    {% csrf_token %}
+    
+    <div>
+      <label class="block text-sm text-vintage-300 mb-2">Title</label>
+      <input type="text" name="title" required 
+             class="w-full px-4 py-2.5 rounded vintage-border bg-cosmic-900 text-vintage-100 focus:outline-none focus:ring-2 focus:ring-accent-400">
+    </div>
+
+    <div>
+      <label class="block text-sm text-vintage-300 mb-2">Language</label>
+      <input type="text" name="language" placeholder="python, javascript, etc." required 
+             class="w-full px-4 py-2.5 rounded vintage-border bg-cosmic-900 text-vintage-100 focus:outline-none focus:ring-2 focus:ring-accent-400">
+    </div>
+
+    <div>
+      <label class="block text-sm text-vintage-300 mb-2">Description</label>
+      <textarea name="description" rows="2" 
+                class="w-full px-4 py-2.5 rounded vintage-border bg-cosmic-900 text-vintage-100 focus:outline-none focus:ring-2 focus:ring-accent-400"></textarea>
+    </div>
+
+    <div>
+      <label class="block text-sm text-vintage-300 mb-2">Tags (comma separated)</label>
+      <input type="text" name="tags" placeholder="react, django, api" 
+             class="w-full px-4 py-2.5 rounded vintage-border bg-cosmic-900 text-vintage-100 focus:outline-none focus:ring-2 focus:ring-accent-400">
+    </div>
+
+    <div>
+      <label class="block text-sm text-vintage-300 mb-2">Code</label>
+      <textarea name="code" rows="10" 
+                class="w-full px-4 py-2.5 rounded vintage-border bg-cosmic-900 text-vintage-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-accent-400"></textarea>
+    </div>
+
+    <div>
+      <label class="block text-sm text-vintage-300 mb-2">Or upload a file</label>
+      <input type="file" name="code_file" 
+             class="w-full px-4 py-2.5 rounded vintage-border bg-cosmic-900 text-vintage-100">
+    </div>
+
+    <button type="submit" class="px-6 py-2.5 rounded btn-vintage text-vintage-100">Save Snippet</button>
+  </form>
+</div>
+
+{% endblock %}
